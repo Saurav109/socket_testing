@@ -102,9 +102,9 @@ let fun=function () {
 
 };
 
-// setInterval(function () {
-//     fun();
-// },updateFrequency);
+setInterval(function () {
+    fun();
+},updateFrequency);
 
 ///_______________________________________
 
