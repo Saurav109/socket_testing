@@ -3,6 +3,7 @@ const app = express();
 const http = require('http').createServer(app);
 const io = require('socket.io')(http);
 
+let PORT =process.env.PORT||3000;
 
 //game elements
 let connectedPlayers = new Map();
@@ -11,6 +12,7 @@ let boxSize = 10;
 let updateFrequency = 1000;
 let height=700;
 let width=700;
+
 
 //_______________________________________
 app.use(express.static('public'));
@@ -106,8 +108,8 @@ let fun=function () {
 
 ///_______________________________________
 
-http.listen(45953, function () {
-    console.log('listening on *:3000');
+http.listen(PORT, function () {
+    console.log('listening on *:'+PORT);
 });
 
 
