@@ -97,13 +97,12 @@ let fun=function () {
     // send all client current game board update
     io.emit("players", Array.from(connectedPlayers));
 
-    console.log("emiting");
 
 };
 
-setInterval(function () {
-    fun();
-},updateFrequency);
+// setInterval(function () {
+//     fun();
+// },updateFrequency);
 
 ///_______________________________________
 
