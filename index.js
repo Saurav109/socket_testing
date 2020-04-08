@@ -9,10 +9,9 @@ let PORT =process.env.PORT||3000;
 let connectedPlayers = new Map();
 let vector = ["up", "down", "left", "right"];
 let boxSize = 10;
-let updateFrequency = 1000;
-let height=700;
-let width=700;
-
+let updateFrequency = 500;
+let worldHeight=10000;
+let worldWidth=10000;
 
 //_______________________________________
 app.use(express.static('public'));
@@ -25,14 +24,13 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket) {
     console.log('a user connected', socket.id);
 
-    // adding new users
     let player = {
         uid: socket.id,
-        x: Math.floor((Math.random() * 30) + 5) * 10,
-        y: Math.floor((Math.random() * 30) + 5) * 10,
+        x: getRandomNumber(100,worldWidth-100),
+        y: getRandomNumber(100,worldHeight-100),
         v: vector[Math.floor((Math.random() * 3))]
     };
-
+    //add player
     connectedPlayers.set(socket.id, player);
 
     // getting input from client
@@ -44,8 +42,6 @@ io.on('connection', function (socket) {
     });
 
 
-
-
     socket.on('disconnect', function () {
         console.log('user disconnected', socket.id);
         connectedPlayers.delete(socket.id);
@@ -53,17 +49,19 @@ io.on('connection', function (socket) {
     });
 });
 
+function getRandomNumber(bottom, top) {
+    return Math.floor( Math.random() * ( 1 + top - bottom ) ) + bottom;
+}
 
 // run every $updateFrequency
 let fun=function () {
     connectedPlayers.forEach(player => {
 
         // set position for every client
-
         //up
         if (player.v === vector[0]) {
 
-            if (player.y < height-boxSize && player.y > boxSize) {
+            if (player.y < worldHeight && player.y > boxSize) {
 
                 player.y = player.y - boxSize;
             }
@@ -71,7 +69,7 @@ let fun=function () {
 
         //down
         if (player.v === vector[1]) {
-            if (player.y < height-boxSize && player.y > boxSize) {
+            if (player.y < worldHeight && player.y > boxSize) {
 
                 player.y = player.y + boxSize;
             }
@@ -79,7 +77,7 @@ let fun=function () {
 
         //left
         if (player.v === vector[2]) {
-            if (player.x < width-boxSize && player.x > boxSize) {
+            if (player.x < worldWidth && player.x > boxSize) {
 
                 player.x = player.x - boxSize;
             }
@@ -87,7 +85,7 @@ let fun=function () {
 
         //right
         if (player.v === vector[3]) {
-            if (player.x < width-boxSize && player.x > boxSize) {
+            if (player.x < worldWidth && player.x > boxSize) {
 
                 player.x = player.x + boxSize;
             }
@@ -97,7 +95,7 @@ let fun=function () {
     });
 
     // send all client current game board update
-    io.emit("players", Array.from(connectedPlayers));
+    io.emit("data", Array.from(connectedPlayers));
 
 
 };
