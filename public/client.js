@@ -73,7 +73,7 @@ function draw() {
         let translatedXY = translationCam(player.x, player.y);
         if (player.uid === uid) {
             fill(color('#00FF00'));
-            moveCamToCenter(translatedXY.x + (boxWidth / 2), translatedXY.y + (boxWidth / 2));
+
         } else {
             fill(color('#F47A9E'));
         }
@@ -82,6 +82,10 @@ function draw() {
         text(uid, translatedXY.x + boxWidth + 10, translatedXY.y + 10);
 
         rect(player.x/finderRatio, player.y/finderRatio, 5, 5);
+
+        if(player.uid===uid){
+            moveCamToCenter(translatedXY.x + (boxWidth / 2), translatedXY.y + (boxWidth / 2));
+        }
     })
 
 

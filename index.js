@@ -8,8 +8,8 @@ let PORT =process.env.PORT||3000;
 //game elements
 let connectedPlayers = new Map();
 let vector = ["up", "down", "left", "right"];
-let boxSize = 10;
-let updateFrequency = 500;
+let boxSize = 1;
+let updateFrequency = 5;
 let worldHeight=10000;
 let worldWidth=10000;
 
